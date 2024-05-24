@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Container, Menu, Button, AuthModal, buttonType } from '../'
+import { Container, Menu, Button, AuthModal, buttonType, MenuLink } from '../'
 import cls from './Navbar.module.scss'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../../store/StoreProvider'
+import { useScrollToHash } from '../../hooks/useScrollToHash'
 
 
 export const Navbar = observer(() => {
-
+    const {pathname} = useScrollToHash()
     const [isAuthModal, setIsAuthModal] = useState(false)
     const [formType, setFormType] = useState('')
     const {authStore} = useStore()
@@ -40,19 +41,22 @@ export const Navbar = observer(() => {
         <header className={cls.navbar}>
             <Container>
                 <div className={cls.navbarInner}>
+                    {
+                        pathname === '/' ? <Menu /> : <MenuLink to='/'>Архангельск</MenuLink>
+                    }
                     <Menu />
                     <div className={cls.btns}>
-                    { authStore.isAuth
-                    ?
-                    <>
-                        <Button variant={buttonType.CLEAR}>{authStore.user.email}</Button>
-                        <Button onClick={onLogout}>Выйти</Button>
-                    </>
-                    :
-                    <>
-                        <Button onClick={onShowModalLogin}>Войти</Button>
-                        <Button onClick={onShowModalRegister}>Зарегистрироваться</Button>
-                    </>
+                        { authStore.isAuth
+                        ?
+                        <>
+                            <Button variant={buttonType.CLEAR}>{authStore.user.email}</Button>
+                            <Button onClick={onLogout}>Выйти</Button>
+                        </>
+                        :
+                        <>
+                            <Button onClick={onShowModalLogin}>Войти</Button>
+                            <Button onClick={onShowModalRegister}>Зарегистрироваться</Button>
+                        </>
                     }   
                     </div>
                 </div>
