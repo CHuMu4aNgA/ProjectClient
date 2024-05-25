@@ -1,4 +1,4 @@
-import { Button, buttonType } from '../../'
+import { Button, buttonType } from '../..'
 import { classNames } from '../../../utils/classNames'
 import cls from './BurgerButton.module.scss'
 
@@ -14,9 +14,9 @@ export const BurgerButton = ({toggleMenu, toggleBurgerMenu}) => {
             onClick={toggleBurgerMenu}
             variant={buttonType.CLEAR}
         >
-            <span className={cls.burderLine}></span>
-            <span className={cls.burderLine}></span>
-            <span className={cls.burderLine}></span>
+            <span className={cls.burgerLine}></span>
+            <span className={cls.burgerLine}></span>
+            <span className={cls.burgerLine}></span>
         </Button>
     )
 }
