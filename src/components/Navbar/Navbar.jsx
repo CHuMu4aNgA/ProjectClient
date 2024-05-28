@@ -43,8 +43,7 @@ export const Navbar = observer(() => {
                 <div className={cls.navbarInner}>
                     {
                         pathname === '/' ? <Menu /> : <MenuLink to='/'>Архангельск</MenuLink>
-                    }
-                    <Menu />
+                    }                 
                     <div className={cls.btns}>
                         { authStore.isAuth
                         ?
