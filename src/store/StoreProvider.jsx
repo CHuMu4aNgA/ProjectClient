@@ -1,11 +1,15 @@
 import { createContext, useContext } from 'react'
 import { AuthStore } from  './AuthStore'
+import { PlaceStore } from './PlaceStore'
 
 
 const authStore = new AuthStore()
 
+const placeStore = new PlaceStore()
+
 const stores = {
     authStore,
+    placeStore
 }
 
 const Context = createContext({...stores})

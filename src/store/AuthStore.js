@@ -26,13 +26,23 @@ export class AuthStore {
         this.isLoading = bool
     }
 
+    setUserAndRole(response){
+        localStorage.setItem('token', response.data.accessToken)
+        this.setAuth(true)
+        this.setUser(response.data.user)
+        const role = response.data.user.role
+        if (role === 'ADMIN') {
+            localStorage.setItem('roleAdmin', true)
+        } else if (role === 'USER') {
+            localStorage.setItem('roleUser', true)
+        }
+    }
+
     async login(email, password){
         try{
             const response = await AuthService.login(email, password)
             console.log(response)
-            localStorage.setItem('token', response.data.accessToken)
-            this.setAuth(true)
-            this.setUser(response.data.user)
+            this.setUserAndRole(response)
         } catch (e) {
             console.log(e.response?.data?.message)
         }
@@ -42,9 +52,7 @@ export class AuthStore {
         try{
             const response = await AuthService.registration(username, email, password)
             console.log(response)
-            localStorage.setItem('token', response.data.accessToken)
-            this.setAuth(true)
-            this.setUser(response.data.user)
+            this.setUserAndRole(response)
         } catch (e){
             console.log(e.message)
         }
@@ -57,6 +65,8 @@ export class AuthStore {
             localStorage.removeItem('token')
             this.setAuth(false)
             this.setUser({})
+            localStorage.removeItem('roleAdmin')
+            localStorage.removeItem('roleUser')
         } catch(e){
             console.log((e).message)
         }
@@ -71,6 +81,8 @@ export class AuthStore {
             this.setAuth(true)
             this.setUser(response.data.user)
         } catch (e){
+            localStorage.removeItem('roleAdmin')
+            localStorage.removeItem('roleUser')
             console.log(e.response?.data?.message)
         } finally {
             this.setLoading(false)

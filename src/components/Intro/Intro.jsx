@@ -9,9 +9,9 @@ export const Intro = () => {
             <div className={cls.introInner}>
                 <div className={cls.title}>
                     <ArhSvg />
-                    <Text title='Архангельск' size='xl' align='center' />
+                    <Text color='white' title='Архангельск' size='xl' align='center' />
                 </div>
-                <Text className={cls.subtitle} title='Был основан в 1584 году' size='l' align='center'/>
+                <Text color='gray' title='Был основан в 1584 году' size='l' align='center'/>
             </div>
         </Section>
     )
