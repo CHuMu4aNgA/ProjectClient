@@ -5,7 +5,7 @@ import SimpleMDE from 'react-simplemde-editor'
 import 'easymde/dist/easymde.min.css'
 import $api, { API_URL } from '../../api'
 import { useStore } from '../../store/StoreProvider'
-import { observerFinalizationRegistry } from 'mobx-react-lite/dist/utils/observerFinalizationRegistry'
+
 
 export const AddPlacePage = () => {
     const { placeStore } = useStore()

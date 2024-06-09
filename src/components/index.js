@@ -19,5 +19,7 @@ export { LinkButton } from './ui/LinkButton/LinkButton'
 export { ProtectedRoute } from './ProtectedRoute/ProtectedRoute'
 export { FilePicker } from './ImagePreview/ImagePreview'
 export { ImagePanel } from './ImagePanel/ImagePanel'
-
+export { PlaceCard } from './PlaceCard/PlaceCard'
+export { Loader } from './Loader/Loader'
  
+
