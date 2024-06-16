@@ -3,13 +3,13 @@ import cls from './YandexMap.module.scss'
 
 export const YandexMap = () => {
     const defaultState = {
-        center: [35.6895, 139.692],
+        center: [64.5401, 40.5433],
         zoom: 13,
     }
 
     return (
         <div className={cls.ymaps}>
-            <YMaps query={{ apikey: 'ce311a8d-f0bb-47f8-9740-6a22b413cc92'}}>
+            <YMaps query={{ apikey: 'd1f29237-f085-46b7-bb49-d17e37b7d766'}}>
                 <Map style={{width: '100%', height: '70vh'}} defaultState={defaultState} />
             </YMaps>
         </div>
