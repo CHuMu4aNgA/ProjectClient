@@ -1,42 +1,40 @@
 import { makeAutoObservable } from 'mobx'
-import { PlaceService } from '../services/PlaceService'
+import { CommentService } from '../services/CommentService'
 import { errorsHandler } from '../utils/errorsHandler'
 
-export class PlaceStore {
-  places = []
+export class CommentStore {
+  comments = []
   isLoading = false
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  setPlaces(place) {
-    this.places.push(place)
+  setComments(comment) {
+    this.comments.push(comment)
   }
 
   setLoading(bool) {
     this.isLoading = bool
   }
 
-  async createPlace(title, text, gallery, thumbnail) {
+  async createComment(text) {
     try {
-      const response = await PlaceService.createPlace(
-        title,
-        text,
-        gallery,
-        thumbnail
+      const response = await CommentService.createComment(
+        text
       )
-      console.log(response)
-      this.setPlaces(response.data.place)
+      console.log(response.data)
+      this.setComments(response.data)
+      return response.data
     } catch (e) {
       return errorsHandler(e.response.data)
     }
   }
 
-  async getPlaces() {
+  async getComments() {
     try {
       this.setLoading(true)
-      const response = await PlaceService.getPlaces()
+      const response = await CommentService.getComments()
       return response.data
     } catch (e) {
       console.log(e)
@@ -45,10 +43,10 @@ export class PlaceStore {
     }
   }
 
-  async getPlaceById(id) {
+  async getCommentById(id) {
     try {
       this.setLoading(true)
-      const response = await PlaceService.getPlace(id)
+      const response = await CommentService.getComment(id)
       return response.data
     } catch (e) {
       console.log(e)
@@ -57,9 +55,9 @@ export class PlaceStore {
     }
   }
 
-  async deletePlaceById(id) {
+  async deleteCommentById(id) {
     try {
-      const response = await PlaceService.deletePlace(id)
+      const response = await CommentService.deleteComment(id)
       return response.data
     } catch (e) {
       console.log(e)
@@ -68,14 +66,11 @@ export class PlaceStore {
     }
   }
 
-  async updatePlace(placeId, title, text, gallery, thumbnail) {
+  async updateComment(id, text) {
     try {
-      const response = await PlaceService.updatePlace(
-        placeId,
-        title,
-        text,
-        gallery,
-        thumbnail
+      const response = await CommentService.updateComment(
+        id,
+        text
       )
       return response.data
     } catch (e) {
@@ -84,5 +79,4 @@ export class PlaceStore {
       this.setLoading(false)
     }
   }
-  
 }
