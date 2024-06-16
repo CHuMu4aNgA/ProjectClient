@@ -2,31 +2,30 @@ import { makeAutoObservable } from 'mobx'
 import { AuthService } from '../services/AuthService'
 import axios from 'axios'
 import { API_URL } from '../api'
-
-
+import { errorsHandler } from '../utils/errorsHandler'
 
 export class AuthStore {
     user = {}
     isAuth = false
     isLoading = false
 
-    constructor(){
+    constructor() {
         makeAutoObservable(this)
     }
 
-    setAuth(bool){
+    setAuth(bool) {
         this.isAuth = bool
     }
 
-    setUser(user){
+    setUser(user) {
         this.user = user
     }
 
-    setLoading(bool){
+    setLoading(bool) {
         this.isLoading = bool
     }
 
-    setUserAndRole(response){
+    setUserAndRole(response) {
         localStorage.setItem('token', response.data.accessToken)
         this.setAuth(true)
         this.setUser(response.data.user)
@@ -38,28 +37,28 @@ export class AuthStore {
         }
     }
 
-    async login(email, password){
-        try{
+    async login(email, password) {
+        try {
             const response = await AuthService.login(email, password)
             console.log(response)
             this.setUserAndRole(response)
         } catch (e) {
-            console.log(e.response?.data?.message)
+            return errorsHandler(e.response?.data)
         }
     }
 
-    async registration(username, email, password){
-        try{
-            const response = await AuthService.registration(username, email, password)
+    async registration(name, email, password) {
+        try {
+            const response = await AuthService.registration(name, email, password)
             console.log(response)
             this.setUserAndRole(response)
-        } catch (e){
-            console.log(e.message)
+        } catch (e) {
+            return errorsHandler(e.response?.data)
         }
     }
 
     async logout() {
-        try{
+        try {
             const response = await AuthService.logout()
             console.log(response)
             localStorage.removeItem('token')
@@ -67,24 +66,25 @@ export class AuthStore {
             this.setUser({})
             localStorage.removeItem('roleAdmin')
             localStorage.removeItem('roleUser')
-        } catch(e){
+        } catch (e) {
             console.log((e).message)
         }
     }
 
     async checkAuth() {
         this.setLoading(true)
-        try{
+        try {
             const response = await axios.get(`${API_URL}/auth/refresh`, {withCredentials: true})
             console.log(response)
             localStorage.setItem('token', response.data.accessToken)
             this.setAuth(true)
             this.setUser(response.data.user)
-        } catch (e){
+        } catch (e) {
             localStorage.removeItem('roleAdmin')
             localStorage.removeItem('roleUser')
             console.log(e.response?.data?.message)
-        } finally {
+        } 
+        finally {
             this.setLoading(false)
         }
     }
